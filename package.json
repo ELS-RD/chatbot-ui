@@ -1,5 +1,5 @@
 {
-  "name": "ai-chatbot-starter",
+  "name": "jackgpt",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -14,9 +14,14 @@
   "dependencies": {
     "@dqbd/tiktoken": "^1.0.2",
     "@tabler/icons-react": "^2.9.0",
+    "@upstash/ratelimit": "^0.4.2",
+    "@vercel/analytics": "^1.0.1",
+    "@vercel/kv": "^0.1.2",
     "eventsource-parser": "^0.1.0",
     "i18next": "^22.4.13",
+    "md5": "^2.3.0",
     "next": "13.2.4",
+    "next-auth": "^4.22.1",
     "next-i18next": "^13.2.2",
     "openai": "^3.2.1",
     "react": "18.2.0",
@@ -36,6 +41,7 @@
     "@tailwindcss/typography": "^0.5.9",
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/jsdom": "^21.1.1",
+    "@types/md5": "^2.3.2",
     "@types/node": "18.15.0",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",

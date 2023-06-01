@@ -34,7 +34,6 @@ import { Prompt } from '@/types/prompt';
 import { Chat } from '@/components/Chat/Chat';
 import { Chatbar } from '@/components/Chatbar/Chatbar';
 import { Navbar } from '@/components/Mobile/Navbar';
-import Promptbar from '@/components/Promptbar';
 
 import HomeContext from './home.context';
 import { HomeInitialState, initialState } from './home.state';
@@ -360,8 +359,11 @@ const Home = ({
       }}
     >
       <Head>
-        <title>Chatbot UI</title>
-        <meta name="description" content="ChatGPT but better." />
+        <title>JackGPT</title>
+        <meta
+          name="description"
+          content="ChatGPT's Lefebvre Sarrut interface"
+        />
         <meta
           name="viewport"
           content="height=device-height ,width=device-width, initial-scale=1, user-scalable=no"
@@ -386,7 +388,8 @@ const Home = ({
               <Chat stopConversationRef={stopConversationRef} />
             </div>
 
-            <Promptbar />
+            {/* remove feature */}
+            {/*<Promptbar />*/}
           </div>
         </main>
       )}

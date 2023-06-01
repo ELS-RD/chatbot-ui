@@ -1,4 +1,10 @@
-import { IconClearAll, IconSettings } from '@tabler/icons-react';
+import {
+  IconAlertTriangleFilled,
+  IconClearAll,
+  IconInfoCircle,
+  IconSettings,
+  IconX,
+} from '@tabler/icons-react';
 import {
   MutableRefObject,
   memo,
@@ -10,9 +16,10 @@ import {
 } from 'react';
 import toast from 'react-hot-toast';
 
-import { useTranslation } from 'next-i18next';
+import { Trans, useTranslation } from 'next-i18next';
 
 import { getEndpoint } from '@/utils/app/api';
+import { GUIDELINES_LINK } from '@/utils/app/const';
 import {
   saveConversation,
   saveConversations,
@@ -25,14 +32,16 @@ import { Plugin } from '@/types/plugin';
 
 import HomeContext from '@/pages/api/home/home.context';
 
+import ChatInfo from '@/components/Chat/ChatInfo';
+
 import Spinner from '../Spinner';
 import { ChatInput } from './ChatInput';
 import { ChatLoader } from './ChatLoader';
 import { ErrorMessageDiv } from './ErrorMessageDiv';
+import { MemoizedChatMessage } from './MemoizedChatMessage';
 import { ModelSelect } from './ModelSelect';
 import { SystemPrompt } from './SystemPrompt';
 import { TemperatureSlider } from './Temperature';
-import { MemoizedChatMessage } from './MemoizedChatMessage';
 
 interface Props {
   stopConversationRef: MutableRefObject<boolean>;
@@ -127,7 +136,48 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
         if (!response.ok) {
           homeDispatch({ field: 'loading', value: false });
           homeDispatch({ field: 'messageIsStreaming', value: false });
-          toast.error(response.statusText);
+
+          const responseText = await response.text();
+
+          if (response.status === 429) {
+            toast.custom(
+              (t) => (
+                <div className="relative inline-flex items-start md:w-1/3 pt-4 pr-8 pb-4 pl-4 rounded-lg bg-blue-500 text-white opacity-90 shadow-md">
+                  <span className="mr-2.5">{t.icon}</span>
+                  <div>
+                    <p>{responseText}</p>
+                  </div>
+                  <button
+                    onClick={() => toast.dismiss(t.id)}
+                    className="absolute top-1 right-1"
+                  >
+                    <IconX />
+                  </button>
+                </div>
+              ),
+              {
+                position: 'top-center',
+                duration: 8000,
+                icon: <IconInfoCircle />,
+              },
+            );
+          } else {
+            toast.custom(
+              (t) => (
+                <div className="inline-flex items-start md:w-1/3 p-4 rounded-lg bg-red-500 text-white opacity-90 shadow-md">
+                  <span className="mr-2.5">{t.icon}</span>
+                  <div>
+                    <p>{responseText}</p>
+                  </div>
+                </div>
+              ),
+              {
+                position: 'top-center',
+                duration: 4000,
+                icon: <IconAlertTriangleFilled />,
+              },
+            );
+          }
           return;
         }
         const data = response.body;
@@ -352,17 +402,17 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
       {!(apiKey || serverSideApiKeyIsSet) ? (
         <div className="mx-auto flex h-full w-[300px] flex-col justify-center space-y-6 sm:w-[600px]">
           <div className="text-center text-4xl font-bold text-black dark:text-white">
-            Welcome to Chatbot UI
+            Welcome to JackGPT
           </div>
-          <div className="text-center text-lg text-black dark:text-white">
-            <div className="mb-8">{`Chatbot UI is an open source clone of OpenAI's ChatGPT UI.`}</div>
-            <div className="mb-2 font-bold">
-              Important: Chatbot UI is 100% unaffiliated with OpenAI.
-            </div>
-          </div>
+          {/*<div className="text-center text-lg text-black dark:text-white">*/}
+          {/*  <div className="mb-8">{`Chatbot UI is an open source clone of OpenAI's ChatGPT UI.`}</div>*/}
+          {/*  <div className="mb-2 font-bold">*/}
+          {/*    Important: Chatbot UI is 100% unaffiliated with OpenAI.*/}
+          {/*  </div>*/}
+          {/*</div>*/}
           <div className="text-center text-gray-500 dark:text-gray-400">
             <div className="mb-2">
-              Chatbot UI allows you to plug in your API key to use this UI with
+              JackGPT allows you to plug in your API key to use this UI with
               their API.
             </div>
             <div className="mb-2">
@@ -392,48 +442,84 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
       ) : (
         <>
           <div
-            className="max-h-full overflow-x-hidden"
+            className="max-h-full overflow-x-hidden pb-[104px]"
             ref={chatContainerRef}
             onScroll={handleScroll}
           >
             {selectedConversation?.messages.length === 0 ? (
               <>
-                <div className="mx-auto flex flex-col space-y-5 md:space-y-10 px-3 pt-5 md:pt-12 sm:max-w-[600px]">
-                  <div className="text-center text-3xl font-semibold text-gray-800 dark:text-gray-100">
+                <div className="mx-auto flex flex-col space-y-2 md:space-y-3 px-3 pt-5 md:pt-12 sm:max-w-[600px]">
+                  <div className="text-center text-3xl font-semibold tracking-wide text-gray-800 dark:text-gray-100">
                     {models.length === 0 ? (
                       <div>
                         <Spinner size="16px" className="mx-auto" />
                       </div>
                     ) : (
-                      'Chatbot UI'
+                      'JackGPT'
                     )}
                   </div>
 
                   {models.length > 0 && (
-                    <div className="flex h-full flex-col space-y-4 rounded-lg border border-neutral-200 p-4 dark:border-neutral-600">
-                      <ModelSelect />
+                    <>
+                      <div className="flex h-full flex-col space-y-4 rounded-lg border border-neutral-200 p-4 dark:border-neutral-600">
+                        <ModelSelect />
 
-                      <SystemPrompt
-                        conversation={selectedConversation}
-                        prompts={prompts}
-                        onChangePrompt={(prompt) =>
-                          handleUpdateConversation(selectedConversation, {
-                            key: 'prompt',
-                            value: prompt,
-                          })
-                        }
-                      />
+                        <SystemPrompt
+                          conversation={selectedConversation}
+                          prompts={prompts}
+                          onChangePrompt={(prompt) =>
+                            handleUpdateConversation(selectedConversation, {
+                              key: 'prompt',
+                              value: prompt,
+                            })
+                          }
+                        />
 
-                      <TemperatureSlider
-                        label={t('Temperature')}
-                        onChangeTemperature={(temperature) =>
-                          handleUpdateConversation(selectedConversation, {
-                            key: 'temperature',
-                            value: temperature,
-                          })
-                        }
-                      />
-                    </div>
+                        <TemperatureSlider
+                          label={t('Temperature')}
+                          onChangeTemperature={(temperature) =>
+                            handleUpdateConversation(selectedConversation, {
+                              key: 'temperature',
+                              value: temperature,
+                            })
+                          }
+                        />
+                      </div>
+                      <ChatInfo
+                        role="alert"
+                        icon={<IconAlertTriangleFilled />}
+                        color="border-orange-500"
+                        title={t('Privacy Policy')}
+                      >
+                        <p className="text-xs">
+                          {t(
+                            'The use of personal data or confidential data relating to Lefebvre Sarrut group companies within this tool is not permitted.',
+                          )}
+                        </p>
+                        <p className="text-xs">
+                          {t('For more information, please see our')}{' '}
+                          <Trans defaults="<0>guidelines</0>.">
+                            <a
+                              href={GUIDELINES_LINK}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-blue-500 font-bold hover:underline"
+                            />
+                          </Trans>
+                        </p>
+                      </ChatInfo>
+                      <ChatInfo
+                        role="contentInfo"
+                        icon={<IconInfoCircle />}
+                        color="border-orange-500/25"
+                      >
+                        <p className="text-xs">
+                          {t(
+                            'We strive to ensure optimal performance of JackGPT and may employ measures to maintain its efficiency while accommodating the high volume of requests.',
+                          )}
+                        </p>
+                      </ChatInfo>
+                    </>
                   )}
                 </div>
               </>

@@ -31,36 +31,42 @@ export const ModelSelect = () => {
       <label className="mb-2 text-left text-neutral-700 dark:text-neutral-400">
         {t('Model')}
       </label>
-      <div className="w-full rounded-lg border border-neutral-200 bg-transparent pr-2 text-neutral-900 dark:border-neutral-600 dark:text-white">
-        <select
-          className="w-full bg-transparent p-2"
-          placeholder={t('Select a model') || ''}
-          value={selectedConversation?.model?.id || defaultModelId}
-          onChange={handleChange}
-        >
-          {models.map((model) => (
-            <option
-              key={model.id}
-              value={model.id}
-              className="dark:bg-[#343541] dark:text-white"
-            >
-              {model.id === defaultModelId
-                ? `Default (${model.name})`
-                : model.name}
-            </option>
-          ))}
-        </select>
+      {/*<div className="w-full rounded-lg border border-neutral-200 bg-transparent pr-2 text-neutral-900 dark:border-neutral-600 dark:text-white">*/}
+      <div className="w-full rounded-lg border border-neutral-200 bg-transparent px-4 py-3 text-neutral-900 dark:border-neutral-600 dark:text-white">
+        {models
+          .filter((model) => model.id === defaultModelId)
+          .map((model) => model.name)}
+        {/* remove feature */}
+        {/*<select*/}
+        {/*  className="w-full bg-transparent p-2"*/}
+        {/*  placeholder={t('Select a model') || ''}*/}
+        {/*  value={selectedConversation?.model?.id || defaultModelId}*/}
+        {/*  onChange={handleChange}*/}
+        {/*>*/}
+        {/*  {models.map((model) => (*/}
+        {/*    <option*/}
+        {/*      key={model.id}*/}
+        {/*      value={model.id}*/}
+        {/*      className="dark:bg-[#343541] dark:text-white"*/}
+        {/*    >*/}
+        {/*      {model.id === defaultModelId*/}
+        {/*        ? `Default (${model.name})`*/}
+        {/*        : model.name}*/}
+        {/*    </option>*/}
+        {/*  ))}*/}
+        {/*</select>*/}
       </div>
-      <div className="w-full mt-3 text-left text-neutral-700 dark:text-neutral-400 flex items-center">
-        <a
-          href="https://platform.openai.com/account/usage"
-          target="_blank"
-          className="flex items-center"
-        >
-          <IconExternalLink size={18} className={'inline mr-1'} />
-          {t('View Account Usage')}
-        </a>
-      </div>
+      {/* remove feature */}
+      {/*<div className="w-full mt-3 text-left text-neutral-700 dark:text-neutral-400 flex items-center">*/}
+      {/*  <a*/}
+      {/*    href="https://platform.openai.com/account/usage"*/}
+      {/*    target="_blank"*/}
+      {/*    className="flex items-center"*/}
+      {/*  >*/}
+      {/*    <IconExternalLink size={18} className={'inline mr-1'} />*/}
+      {/*    {t('View Account Usage')}*/}
+      {/*  </a>*/}
+      {/*</div>*/}
     </div>
   );
 };
