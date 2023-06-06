@@ -2,6 +2,7 @@ import {
   IconBook2,
   IconBulbFilled,
   IconFileExport,
+  IconListCheck,
   IconSettings,
   IconShieldHalf,
 } from '@tabler/icons-react';
@@ -9,6 +10,7 @@ import { signOut, useSession } from 'next-auth/react';
 import { useContext, useState } from 'react';
 
 import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 
 import { CODA_LINK, GUIDELINES_LINK, USER_GUIDE_LINK } from '@/utils/app/const';
 
@@ -24,10 +26,12 @@ import { SidebarButton } from '../../Sidebar/SidebarButton';
 import ChatbarContext from '../Chatbar.context';
 import { ClearConversations } from './ClearConversations';
 
+
 export const ChatbarSettings = () => {
   const { t } = useTranslation('sidebar');
   const [isSettingDialogOpen, setIsSettingDialog] = useState<boolean>(false);
   const { data: session } = useSession();
+  const router = useRouter();
 
   const {
     state: {
@@ -92,9 +96,16 @@ export const ChatbarSettings = () => {
         />
         <SidebarButton
           text={t('Guidelines')}
-          icon={<IconShieldHalf size={18} />}
+          icon={<IconListCheck size={18} />}
           onClick={() => {
             window.open(GUIDELINES_LINK, '_blank', 'noreferrer');
+          }}
+        />
+        <SidebarButton
+          text={t('Privacy Policy')}
+          icon={<IconShieldHalf size={18} />}
+          onClick={() => {
+            router.push('/legal/privacy-policy');
           }}
         />
         <SidebarButton
