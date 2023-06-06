@@ -1,7 +1,7 @@
 import { IconArrowLeft } from '@tabler/icons-react';
 
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import { useTranslation } from 'next-i18next';
+import { Trans, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -17,7 +17,6 @@ const PrivacyPolicy = (
   const { t } = useTranslation('legal');
 
   const lightMode = 'dark';
-  const maxWith = '900px';
   const styles = {
     h2: 'py-4 text-2xl md:text-3xl font-medium border-b-2',
     h3: 'py-0 text-lg font-medium normal-case',
@@ -53,16 +52,20 @@ const PrivacyPolicy = (
         <div className="flex flex-col w-full h-full text-base text-black dark:text-white bg-white dark:bg-[#202123]">
           <header className="bg-gray-500/10 dark:bg-black">
             <h1
-              className={`mx-auto px-4 pt-20 pb-16 md:pt-24 md:pb-20 text-center text-4xl md:text-5xl font-medium sm:max-w-[${maxWith}]`}
+              className={`mx-auto px-4 pt-20 pb-16 md:pt-24 md:pb-20 text-center text-4xl md:text-5xl font-medium sm:max-w-[900px]`}
             >
               Principes fondamentaux d’utilisation
             </h1>
           </header>
 
           <div
-            className={`flex flex-col mx-auto space-y-4 md:space-y-4 px-4 pt-16 pb-12 md:pt-16 md:pb-12 sm:max-w-[${maxWith}]`}
+            className={`flex flex-col mx-auto space-y-4 md:space-y-4 px-4 pt-16 pb-12 md:pt-16 md:pb-12 sm:max-w-[900px]`}
           >
+            {/* to be translated */}
             <h2 className={styles.h2}>Préambule</h2>
+
+            {/* to be translated */}
+            <Trans components={{ p: <p /> }}>{t('introduction.content')}</Trans>
 
             <p>
               Tout contenu inséré dans le fil de discussion avec JackGPT-ChatGPT
@@ -96,9 +99,19 @@ const PrivacyPolicy = (
               coopération autour des conditions d’utilisation de ChatGPT.
             </p>
 
+            {/* to be translated */}
             <h2 className={styles.h2}>Guide d’utilisation</h2>
 
+            {/* to be translated */}
             <h3 className={styles.h3}>En particulier à ne pas faire</h3>
+
+            {/* to be translated */}
+            <Trans
+              components={{ ul: <ul className={styles.ul} />, li: <li /> }}
+            >
+              {t('user-guide.content-1')}
+            </Trans>
+
             <ul className={styles.ul}>
               <li>
                 Ne pas insérer de données à caractère personnel (Email,
@@ -128,7 +141,17 @@ const PrivacyPolicy = (
                 vérification a posteriori
               </li>
             </ul>
+
+            {/* to be translated */}
             <h3 className={styles.h3}>A faire</h3>
+
+            {/* to be translated */}
+            <Trans
+              components={{ ul: <ul className={styles.ul} />, li: <li /> }}
+            >
+              {t('user-guide.content-2')}
+            </Trans>
+
             <ul className={styles.ul}>
               <li>
                 Se poser systématiquement la question de savoir si le contenu
@@ -140,9 +163,17 @@ const PrivacyPolicy = (
                 historique des discussions » de ChatGPT voir ci-dessous)
               </li>
             </ul>
+
+            {/* to be translated */}
             <h2 className={styles.h2}>Fonctionnement de ChatGPT</h2>
 
+            {/* to be translated */}
             <h3 className={styles.h3}>Historique des conversations</h3>
+
+            {/* to be translated */}
+            <Trans components={{ p: <p /> }}>
+              {t('how-it-works.content-1')}
+            </Trans>
 
             <p>
               En cas de désactivation de l’historique, les nouvelles
@@ -155,10 +186,27 @@ const PrivacyPolicy = (
               fermées.
             </p>
 
+            {/* to be translated */}
             <h3 className={styles.h3}>
               Note sur la cybercriminalité liée à ChatGPT
             </h3>
 
+            {/* to be translated */}
+            <Trans
+              components={{
+                p: <p />,
+                a: (
+                  <a
+                    href="https://openai.com/blog/chatgpt"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-blue-500 font-bold hover:underline"
+                  />
+                ),
+              }}
+            >
+              {t('how-it-works.content-2')}
+            </Trans>
             <p>
               Cette note concerne spécifiquement l’usage personnel de ChatGPT
               via un compte personnel et via le Web public (c’est-à-dire en
