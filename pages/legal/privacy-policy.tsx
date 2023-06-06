@@ -1,11 +1,20 @@
 import { IconArrowLeft } from '@tabler/icons-react';
 
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 
-const PrivacyPolicy = () => {
+type Props = {
+  // Add custom props here
+};
+const PrivacyPolicy = (
+  _props: InferGetStaticPropsType<typeof getStaticProps>,
+) => {
   const router = useRouter();
+  const { t } = useTranslation('legal');
 
   const lightMode = 'dark';
   const maxWith = '900px';
@@ -18,7 +27,7 @@ const PrivacyPolicy = () => {
   return (
     <>
       <Head>
-        <title>JackGPT - Principes fondamentaux d’utilisation</title>
+        <title>JackGPT</title>
         <meta
           name="description"
           content="ChatGPT's Lefebvre Sarrut interface"
@@ -190,5 +199,12 @@ const PrivacyPolicy = () => {
     </>
   );
 };
+
+export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale ?? 'en', ['legal'])),
+    // Will be passed to the page component as props
+  },
+});
 
 export default PrivacyPolicy;
