@@ -1,0 +1,21 @@
+{
+  "h1": "Principes fondamentaux d’utilisation",
+  "introduction": {
+    "title": "Préambule",
+    "content": "<p>test</p>"
+  },
+  "user-guide": {
+    "title": "Guide d’utilisation",
+    "subtitle-1": "En particulier à ne pas faire",
+    "content-1": "<ul><li>test-1</li></ul>",
+    "subtitle-2": "A faire",
+    "content-2": "<ul><li>test-2</li></ul>"
+  },
+  "how-it-works": {
+    "title": "Fonctionnement de ChatGPT",
+    "subtitle-1": "Historique des conversations",
+    "content-1": "<p>test</p>",
+    "subtitle-2": "Note sur la cybercriminalité liée à ChatGPT",
+    "content-2": "<p>test</p><a>test</a>"
+  }
+}
