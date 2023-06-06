@@ -10,7 +10,7 @@ const PrivacyPolicy = () => {
   const lightMode = 'dark';
   const maxWith = '900px';
   const styles = {
-    h2: 'py-4 text-3xl font-medium border-b-2',
+    h2: 'py-4 text-2xl md:text-3xl font-medium border-b-2',
     h3: 'py-0 text-lg font-medium normal-case',
     ul: 'list-disc list-outside pl-3 space-y-1',
   };
@@ -44,7 +44,7 @@ const PrivacyPolicy = () => {
         <div className="flex flex-col w-full h-full text-base text-black dark:text-white bg-white dark:bg-[#202123]">
           <header className="bg-gray-500/10 dark:bg-black">
             <h1
-              className={`mx-auto px-4 pt-24 pb-20 text-center text-5xl font-medium sm:max-w-[${maxWith}]`}
+              className={`mx-auto px-4 pt-20 pb-16 md:pt-24 md:pb-20 text-center text-4xl md:text-5xl font-medium sm:max-w-[${maxWith}]`}
             >
               Principes fondamentaux d’utilisation
             </h1>
