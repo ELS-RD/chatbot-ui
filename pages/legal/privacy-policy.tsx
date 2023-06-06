@@ -1,6 +1,12 @@
+import { IconArrowLeft } from '@tabler/icons-react';
+
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+
 
 const PrivacyPolicy = () => {
+  const router = useRouter();
+
   const lightMode = 'dark';
   const maxWith = '900px';
   const styles = {
@@ -12,19 +18,29 @@ const PrivacyPolicy = () => {
   return (
     <>
       <Head>
-        <title>JackGPT</title>
+        <title>JackGPT - Principes fondamentaux d’utilisation</title>
         <meta
           name="description"
           content="ChatGPT's Lefebvre Sarrut interface"
         />
         <meta
           name="viewport"
-          content="height=device-height ,width=device-width, initial-scale=1, user-scalable=no"
+          content="height=device-height, width=device-width, initial-scale=1, user-scalable=no"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={`${lightMode}`}>
+        <div className="fixed top-0 left-0 w-full backdrop-blur-sm bg-black/10 dark:bg-black/30">
+          <button
+            className="p-2.5 h-8 w-8 text-black hover:text-gray-500 dark:text-white dark:hover:text-gray-300"
+            onClick={() => {
+              router.push('/');
+            }}
+          >
+            <IconArrowLeft />
+          </button>
+        </div>
         <div className="flex flex-col w-full h-full text-base text-black dark:text-white bg-white dark:bg-[#202123]">
           <header className="bg-gray-500/10 dark:bg-black">
             <h1
