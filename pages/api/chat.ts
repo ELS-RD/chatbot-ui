@@ -1,13 +1,10 @@
 import { NextFetchEvent, NextRequest } from 'next/server';
 
-import {
-  DEFAULT_SYSTEM_PROMPT,
-  DEFAULT_TEMPERATURE,
-  RATE_LIMIT_DURATION,
-} from '@/utils/app/const';
+import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '@/utils/app/const';
 import { OpenAIError, OpenAIStream } from '@/utils/server';
 
 import { ChatBody, Message } from '@/types/chat';
+import { Duration } from '@/types/ratelimit';
 
 // @ts-expect-error
 import wasm from '../../node_modules/@dqbd/tiktoken/lite/tiktoken_bg.wasm?module';
@@ -28,7 +25,7 @@ const rateLimit = new Ratelimit({
   redis: kv,
   limiter: Ratelimit.slidingWindow(
     isNaN(tokens) ? 120 : tokens,
-    (process.env.RATE_LIMITER_WINDOW ?? '1h') as RATE_LIMIT_DURATION,
+    (process.env.RATE_LIMITER_WINDOW ?? '1h') as Duration,
   ),
   analytics: false, // disable Upstash rate limiter analytics
 });

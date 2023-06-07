@@ -5,14 +5,15 @@ import {
   OPENAI_API_TYPE,
   OPENAI_API_VERSION,
   OPENAI_ORGANIZATION,
-  RATE_LIMIT_DURATION,
 } from '@/utils/app/const';
 
 import { OpenAIModel, OpenAIModelID, OpenAIModels } from '@/types/openai';
+import { Duration } from '@/types/ratelimit';
 
 import { Ratelimit } from '@upstash/ratelimit';
 import kv from '@vercel/kv';
 import md5 from 'md5';
+
 
 export const config = {
   runtime: 'edge',
@@ -23,7 +24,7 @@ const rateLimit = new Ratelimit({
   redis: kv,
   limiter: Ratelimit.slidingWindow(
     isNaN(tokens) ? 600 : tokens,
-    (process.env.RATE_LIMITER_WINDOW ?? '1h') as RATE_LIMIT_DURATION,
+    (process.env.RATE_LIMITER_WINDOW ?? '1h') as Duration,
   ),
   analytics: false, // disable Upstash rate limiter analytics
 });
