@@ -27,3 +27,6 @@ export const GUIDELINES_LINK =
 
 export const USER_GUIDE_LINK =
   'https://landings.lefebvre.es/media/files/pdfs/JackGPT-User-Guide.pdf';
+
+type Unit = 'ms' | 's' | 'm' | 'h' | 'd';
+export type RATE_LIMIT_DURATION = `${number} ${Unit}` | `${number}${Unit}`;
