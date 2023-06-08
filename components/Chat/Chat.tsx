@@ -3,7 +3,6 @@ import {
   IconClearAll,
   IconInfoCircle,
   IconSettings,
-  IconX,
 } from '@tabler/icons-react';
 import {
   MutableRefObject,
@@ -33,6 +32,7 @@ import { Plugin } from '@/types/plugin';
 import HomeContext from '@/pages/api/home/home.context';
 
 import ChatInfo from '@/components/Chat/ChatInfo';
+import CustomToast from '@/components/Chat/CustomToast';
 
 import Spinner from '../Spinner';
 import { ChatInput } from './ChatInput';
@@ -42,6 +42,7 @@ import { MemoizedChatMessage } from './MemoizedChatMessage';
 import { ModelSelect } from './ModelSelect';
 import { SystemPrompt } from './SystemPrompt';
 import { TemperatureSlider } from './Temperature';
+
 
 interface Props {
   stopConversationRef: MutableRefObject<boolean>;
@@ -142,18 +143,11 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           if (response.status === 429) {
             toast.custom(
               (t) => (
-                <div className="relative inline-flex items-start md:w-1/3 pt-4 pr-8 pb-4 pl-4 rounded-lg bg-blue-500 text-white opacity-90 shadow-md">
-                  <span className="mr-2.5">{t.icon}</span>
-                  <div>
-                    <p>{responseText}</p>
-                  </div>
-                  <button
-                    onClick={() => toast.dismiss(t.id)}
-                    className="absolute top-1 right-1"
-                  >
-                    <IconX />
-                  </button>
-                </div>
+                <CustomToast
+                  t={t}
+                  message={responseText}
+                  backgroundColor="bg-blue-500"
+                />
               ),
               {
                 position: 'top-center',
@@ -164,16 +158,15 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           } else {
             toast.custom(
               (t) => (
-                <div className="inline-flex items-start md:w-1/3 p-4 rounded-lg bg-red-500 text-white opacity-90 shadow-md">
-                  <span className="mr-2.5">{t.icon}</span>
-                  <div>
-                    <p>{responseText}</p>
-                  </div>
-                </div>
+                <CustomToast
+                  t={t}
+                  message={responseText}
+                  backgroundColor="bg-red-500"
+                />
               ),
               {
                 position: 'top-center',
-                duration: 4000,
+                duration: 8000,
                 icon: <IconAlertTriangleFilled />,
               },
             );
