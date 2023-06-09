@@ -4,6 +4,7 @@ import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '@/utils/app/const';
 import { OpenAIError, OpenAIStream } from '@/utils/server';
 
 import { ChatBody, Message } from '@/types/chat';
+import { Duration } from '@/types/ratelimit';
 
 // @ts-expect-error
 import wasm from '../../node_modules/@dqbd/tiktoken/lite/tiktoken_bg.wasm?module';
@@ -14,16 +15,14 @@ import { Ratelimit } from '@upstash/ratelimit';
 import kv from '@vercel/kv';
 import md5 from 'md5';
 
+
 export const config = {
   runtime: 'edge',
 };
 
-type Unit = 'ms' | 's' | 'm' | 'h' | 'd';
-type Duration = `${number} ${Unit}` | `${number}${Unit}`;
 const tokens = parseInt(process.env.RATE_LIMITER_TOKENS ?? '120', 10);
 const rateLimit = new Ratelimit({
   redis: kv,
-  // very basic limiter alternative: Ratelimit.fixedWindow(120, '1h'),
   limiter: Ratelimit.slidingWindow(
     isNaN(tokens) ? 120 : tokens,
     (process.env.RATE_LIMITER_WINDOW ?? '1h') as Duration,
@@ -46,7 +45,7 @@ const handler = async (
 
     if (!success) {
       console.warn(
-        'RATE_LIMIT',
+        'RATE_LIMIT_CHAT',
         hashedUsername,
         `remaining:${remaining}/limit:${limit}`,
       );
