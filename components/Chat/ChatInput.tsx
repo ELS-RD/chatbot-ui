@@ -371,7 +371,6 @@ export const ChatInput = ({
           )}
         </div>
       </div>
-      {/* removed feature */}
       <div className="px-4 pt-2 pb-3 text-center text-[12px] text-black/50 dark:text-white/50 md:px-4 md:pt-3 md:pb-6">
         <Trans
           i18nKey="privacyPolicy"
