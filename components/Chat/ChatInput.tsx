@@ -1,7 +1,5 @@
 import {
   IconArrowDown,
-  IconBolt,
-  IconBrandGoogle,
   IconPlayerStop,
   IconRepeat,
   IconSend,
@@ -16,7 +14,9 @@ import {
   useState,
 } from 'react';
 
-import { useTranslation } from 'next-i18next';
+import { Trans, useTranslation } from 'next-i18next';
+
+import { GUIDELINES_LINK } from '@/utils/app/const';
 
 import { Message } from '@/types/chat';
 import { Plugin } from '@/types/plugin';
@@ -24,7 +24,6 @@ import { Prompt } from '@/types/prompt';
 
 import HomeContext from '@/pages/api/home/home.context';
 
-import { PluginSelect } from './PluginSelect';
 import { PromptList } from './PromptList';
 import { VariableModal } from './VariableModal';
 
@@ -372,21 +371,23 @@ export const ChatInput = ({
           )}
         </div>
       </div>
-      {/* removed feature */}
-      {/*<div className="px-3 pt-2 pb-3 text-center text-[12px] text-black/50 dark:text-white/50 md:px-4 md:pt-3 md:pb-6">*/}
-      {/*  <a*/}
-      {/*    href="https://github.com/mckaywrigley/chatbot-ui"*/}
-      {/*    target="_blank"*/}
-      {/*    rel="noreferrer"*/}
-      {/*    className="underline"*/}
-      {/*  >*/}
-      {/*    ChatBot UI*/}
-      {/*  </a>*/}
-      {/*  .{' '}*/}
-      {/*  {t(*/}
-      {/*    "Chatbot UI is an advanced chatbot kit for OpenAI's chat models aiming to mimic ChatGPT's interface and functionality.",*/}
-      {/*  )}*/}
-      {/*</div>*/}
+      <div className="px-4 pt-2 pb-3 text-center text-[12px] text-black/50 dark:text-white/50 md:px-4 md:pt-3 md:pb-6">
+        <Trans
+          i18nKey="privacyPolicy"
+          t={t}
+          defaults="Please see our privacy and use policy in our <a>guidelines</a>."
+          components={{
+            a: (
+              <a
+                href={GUIDELINES_LINK}
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-500 font-bold hover:underline"
+              />
+            ),
+          }}
+        />
+      </div>
     </div>
   );
 };
