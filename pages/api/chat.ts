@@ -60,15 +60,6 @@ const handler = async (
     const { model, messages, key, prompt, temperature } =
       (await req.json()) as ChatBody;
 
-    // ⚠️temporary: to be removed
-    // checks whether the model sent is the default
-    if (model.id !== process.env.DEFAULT_MODEL) {
-      return new Response(
-        'Unauthorized : The version of the model transmitted is not authorized.',
-        { status: 401 },
-      );
-    }
-
     await init((imports) => WebAssembly.instantiate(wasm, imports));
     const encoding = new Tiktoken(
       tiktokenModel.bpe_ranks,
